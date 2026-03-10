@@ -1,0 +1,117 @@
+Database: IMDB
+Tables: Movie, Artist, Roles, Review
+
+i) Movie - Movie table have details Moviename, Artist, Directorname, Genre, Releasedate, Media  
+ii) Review - Review table have details Moviename , Review 
+iii)Artist - Artist table have details of Artistname , Skills
+iv)Roles - Roles table have details of Artistname ,Moviename ,Roles 
+
+create database IMDB;  # Database creation
+
+Movie Table creation:
+
+create table Movie(
+Moviename varchar (50) Primary Key,
+Artistname varchar(50),
+Directorname varchar(50),
+Genre varchar(50),
+Releasedate date,
+Media varchar(25));
+
+Inserting values into the table:
+
+insert into movie value ('Kalakalapu','Siva', 'Balu', 'Comedy', '2004-05-27','Video'),
+ ('Samy','Vikram', 'Vasu', 'Action', '2007-05-12','Video'),
+ ('Gilly','Vijay', 'Mani', 'Love', '2012-09-4','Video'),
+ ('Mahanadi','Gemini', 'Shankar', 'Biography', '2017-02-17','Video'),
+ ('Aranmani','Siddhu', 'Sundar C', 'Thriller', '2020-11-28','Video');
+
+fetching details of table Movie:
+
+ select * from movie;
+
+Review Table creation:
+
+create table Review(
+Moviename VARCHAR(50),
+foreign key (Moviename) references Movie(Moviename),
+Review int);
+
+
+Inserting values into the table:
+
+insert into Review values ('Gilly','7'),
+('Mahanadi','9'),
+('Aranmani','8.5');
+
+fetching details of table Review
+
+select * from Review;
+
+Fetching details from both Movie and Review tables which are all have the same movie name using INNER JOIN:
+
+select * from Movie
+inner join Review
+on Movie.Moviename = Review.Moviename;
+
+Artist Table creation:
+
+create table Artist(
+Artistname varchar(50) Primary Key,
+Skills varchar(50));
+
+
+Inserting values into the table:
+
+insert into Artist value('Siddhu','Acting'),
+('Vikram', 'Acting,Dancing'),
+('Gemini','Acting,Singing,Dancing'),
+('Siva','Acting &Comedy');
+
+fetching details of table Artist
+
+select * from artist;
+
+Roles Table creation:
+
+create table Roles(
+Artistname varchar(50),
+Moviename VARCHAR(50),
+foreign key (Artistname) references Artist(Artistname),
+foreign key (Moviename) references Movie(Moviename),
+Roles varchar(50));
+
+
+Inserting values into the table:
+
+insert into Roles values('Siddhu','Aranmani','Hero'),
+('Gemini','Mahanadi','Hero'),
+('Siva','Kalakalapu','Hero and Comedian');
+
+fetching details of table Roles
+
+select * from Roles;
+
+Fetching details from both Movie and Review tables using RightJOIN:
+
+select artist.Artistname, artist.skills, roles.roles
+from Artist
+right join Roles
+on artist.Artistname = Roles.Artistname;
+
+
+
+
+Fetching details from all the tables of a artist using multiple JOIN:
+
+select movie.Moviename, movie.artistname,Review.Review,artist.skills, Roles.roles
+from movie join Review on Movie.moviename=review.Moviename
+join artist on movie.Artistname = artist.Artistname
+join roles on artist.Artistname = roles.Artistname;
+
+
+
+
+
+
+
